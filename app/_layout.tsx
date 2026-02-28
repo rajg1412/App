@@ -2,6 +2,18 @@ import { useEffect, useState } from 'react';
 import { Stack, useRouter, useSegments } from 'expo-router';
 import { supabase } from './lib/supabase';
 import type { Session } from '@supabase/supabase-js';
+import * as Notifications from 'expo-notifications';
+
+// This tells the app how to handle a notification when it's already open
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: true,
+    shouldSetBadge: false,
+    shouldShowBanner: true,
+    shouldShowList: true,
+  }),
+});
 
 export default function RootLayout() {
   const [session, setSession] = useState<Session | null>(null);
