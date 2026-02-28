@@ -20,7 +20,7 @@
     "owner": "rajgoyas-organization",
     "android": {
       "package": "com.rajgoyasorganization.authapp",
-      "googleServicesFile": "./android/app/google-services.json"
+      "googleServicesFile": "./google-services.json"
     },
     "ios": {
       "bundleIdentifier": "com.rajgoyasorganization.authapp",
