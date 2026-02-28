@@ -3,6 +3,8 @@ import { Stack, useRouter, useSegments } from 'expo-router';
 import { supabase } from './lib/supabase';
 import type { Session } from '@supabase/supabase-js';
 import * as Notifications from 'expo-notifications';
+import { View, ActivityIndicator } from 'react-native';
+
 
 // This tells the app how to handle a notification when it's already open
 Notifications.setNotificationHandler({
@@ -26,7 +28,11 @@ export default function RootLayout() {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
       setLoading(false);
+    }).catch(err => {
+      console.error('Supabase session fetch error:', err);
+      setLoading(false); // Still stop loading so we can see other screens/errors
     });
+
 
     // Listen for login/logout events
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
@@ -53,7 +59,14 @@ export default function RootLayout() {
     }
   }, [session, loading, segments]);
 
-  if (loading) return null;
+  if (loading) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#fff' }}>
+        <ActivityIndicator size="large" color="#6200ea" />
+      </View>
+    );
+  }
+
 
   return (
     <Stack screenOptions={{ headerShown: false }}>
